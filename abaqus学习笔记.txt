@@ -1,0 +1,42 @@
+20170805
+0、abaqus在线手册：http://abaqusdoc.ucalgary.ca/index.html
+
+1、在我们开始建模之前，我们点击用户界面中的“script button”，切换到脚本窗口，键入下面一行命令：
+session.journalOptions.setValues(replayGeometry=COORDINATE,recoveryGeometry=COORDINATE)
+输入结束后，点击回车键。界面不会发生任何变化，但这行命令将使得之后创建的set,surfaces,选择region等等的python脚本更可读。
+
+2、不通过用户图形界面运行脚本，直接从终端运行它。
+可以使用2个不同的命令：
+abaqus cae script=EXAMPLE_MDB.py
+abaqus cae noGUI=EXAMPLE_MDB.py
+第一行将打开abaqus cae 并且可以看到ABAQUS cae做了什么。
+后一行将打开abaqus但并没有用户图形界面，只得到结果。
+
+3、findAt命令被用于替代getSequenceFromMask，因为我们是在建立abaqus模型之前将指令输入脚本窗口。
+
+
+——《一小时学会abaqus脚本》
+
+[python] abaqus二次开发中getSequenceFromMask的避免方式
+在做ABAQUS二次开发时，经常会遇到getSequenceFromMask，里面给出的是一个掩码编码，一般不具备通用性，在参数化建模或者优化分析里面应避免使用它。
+
+abaqus提供了三种对单个对象或者多个对象的索引方式：
+1.就是getSequenceFromMask
+2.findAt()+??坐标点的方式，很好用
+3.元素的实际索引号的方式，比如，
+p=mdb.models['Model-1'].parts['Part-1']
+e=p.elements
+e1=e[0]
+e2=e[0:10]
+
+如何将你的rpy文件或者rec文件转化成2? ?3 两种方式的输出形式呢？
+
+1.在命令交互行（abaqus/CAE最下方）输入以下指令就不会出现getSequenceFromMask：
+session.journalOptions.setValues(replayGeometry=COORDINATE,recoverGeometry= COORDINATE)
+这种方式是将rpy以及rec恢复文件的格式以findAt()+坐标值的方式输出。即第二种方式。
+
+2.在命令交互行（abaqus/CAE最下方）输入以下指令 ：
+session.journalOptions.setValues(replayGeometry=INDEX,recoverGeometry=INDEX)
+则会以元素的实际索引号作出对象的索引方式，即第三种方式
+
+——http://www.caetecc.com/thread-7618-1-1.html
