@@ -22,7 +22,7 @@ abaqus cae noGUI=EXAMPLE_MDB.py
 
 abaqus提供了三种对单个对象或者多个对象的索引方式：
 1.就是getSequenceFromMask
-2.findAt()+??坐标点的方式，很好用
+2.findAt()+坐标点的方式，很好用
 3.元素的实际索引号的方式，比如，
 p=mdb.models['Model-1'].parts['Part-1']
 e=p.elements
@@ -40,3 +40,30 @@ session.journalOptions.setValues(replayGeometry=INDEX,recoverGeometry=INDEX)
 则会以元素的实际索引号作出对象的索引方式，即第三种方式
 
 ——http://www.caetecc.com/thread-7618-1-1.html
+
+
+5.1
+Assembly object
+An Assembly object is a container for instances of parts. The Assembly object has no constructor command. Abaqus creates the rootAssembly member when a Model object is created.
+
+Accesss
+
+import assembly
+mdb.models[name].rootAssembly
+
+——http://abaqusdoc.ucalgary.ca/books/ker/default.htm
+Assembly object
+
+CAE之点滴
+在建模作基面（草绘）时，Approximate size的大小对方便地进行平面绘图很有意义。一般取欲画尺寸的125%。
+——https://www.douban.com/note/147939565/
+
+
+Abaqus Create Instance实际就是将Part导入到Assembly
+Dependent(mesh on part)
+默认选项
+
+Independent(mesh on instance)
+耗用内存较多，生成的inp文件也较大
+
+——Abaqus各功能模块入门详解.ppt
