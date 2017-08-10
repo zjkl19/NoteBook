@@ -32,7 +32,7 @@ e2=e[0:10]
 如何将你的rpy文件或者rec文件转化成2? ?3 两种方式的输出形式呢？
 
 1.在命令交互行（abaqus/CAE最下方）输入以下指令就不会出现getSequenceFromMask：
-session.journalOptions.setValues(replayGeometry=COORDINATE,recoverGeometry= COORDINATE)
+session.journalOptions.setValues(replayGeometry=COORDINATE,recoverGeometry=COORDINATE)
 这种方式是将rpy以及rec恢复文件的格式以findAt()+坐标值的方式输出。即第二种方式。
 
 2.在命令交互行（abaqus/CAE最下方）输入以下指令 ：
