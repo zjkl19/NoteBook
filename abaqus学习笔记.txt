@@ -67,3 +67,9 @@ Independent(mesh on instance)
 耗用内存较多，生成的inp文件也较大
 
 ——Abaqus各功能模块入门详解.ppt
+
+20170812
+
+Abaqus中独立实体（Independent?instance）和非独立实体（Dependent?instance）的区别
+具体来说，如果集合中包含许多具有相同性质的部件，则创建非独立实体。反之，如果集合中包含许多不同性质的部件，则创建独立实体要有优势些。
+——http://blog.sina.com.cn/s/blog_56d5b3b001018g0r.html
