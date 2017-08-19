@@ -2,7 +2,7 @@
 0、abaqus在线手册：http://abaqusdoc.ucalgary.ca/index.html
 
 1、在我们开始建模之前，我们点击用户界面中的“script button”，切换到脚本窗口，键入下面一行命令：
-session.journalOptions.setValues(replayGeometry=COORDINATE,recoveryGeometry=COORDINATE)
+session.journalOptions.setValues(replayGeometry=COORDINATE,recoverGeometry=COORDINATE)
 输入结束后，点击回车键。界面不会发生任何变化，但这行命令将使得之后创建的set,surfaces,选择region等等的python脚本更可读。
 
 2、不通过用户图形界面运行脚本，直接从终端运行它。
@@ -70,6 +70,50 @@ Independent(mesh on instance)
 
 20170812
 
-Abaqus中独立实体（Independent?instance）和非独立实体（Dependent?instance）的区别
+1、Abaqus中独立实体（Independent?instance）和非独立实体（Dependent?instance）的区别
 具体来说，如果集合中包含许多具有相同性质的部件，则创建非独立实体。反之，如果集合中包含许多不同性质的部件，则创建独立实体要有优势些。
 ——http://blog.sina.com.cn/s/blog_56d5b3b001018g0r.html
+
+2、MPC约束
+a = mdb.models['InteractionTestModel'].rootAssembly
+v1 = a.instances['trussInstance'].vertices
+verts1 = v1.findAt(((1.0, 0.0, 0.0), ))
+region1=regionToolset.Region(vertices=verts1)
+a = mdb.models['InteractionTestModel'].rootAssembly
+v1 = a.instances['beamInstance'].vertices
+verts1 = v1.findAt(((1.0, 0.0, 0.0), ))
+region2=regionToolset.Region(vertices=verts1)
+mdb.models['InteractionTestModel'].MultipointConstraint(name='Constraint-1', 
+    controlPoint=region1, surface=region2, mpcType=PIN_MPC, 
+    userMode=DOF_MODE_MPC, userType=0, csys=None)
+
+3、
+abaqus中的材料属性不能直接赋予几何模型和有限元模型，必须通过创建截面属性，把材料属性赋予截面属性，然后再把截面属性赋予几何属性，间接地把材料赋予几何模型。
+——https://wenku.baidu.com/view/3e5c9772f111f18582d05a2f.html
+
+20170819
+1、（第10行），使用构造函数建立一个ConstrainedSketch对象，其中sheetSize参数大小对二次开发无实际意义。
+
+——《ABAQUS Python二次开发攻略》苏景鹤 江丙云 P164
+
+2、由此我们可以总结出Abaqus中建立特征几何体的一般流程：先建立草绘图Sketch，再生成体对象Part，最后应用合适的feature操作。
+
+——《ABAQUS Python二次开发攻略》苏景鹤 江丙云 P166
+
+3、用户可以在某些重要的部位（例如应力集中区域、塑性变形较大的区域、结构的关键部位等）布置较多的种子，细化网格保证计算结果的精确。而对不重要的区域可以适当地减少种子的数量，划分较粗的网格，缩短计算的时间，
+——《ABAQUS 结构工程分析及实例详解》王玉镯 傅传国 P22
+
+4、（ABAQUS/CAE）模型的材料属性、部件间的相互作用、荷载、边界条件等都可以直接定义在几何模型上，而不用必须直接定义在单元和节点上，……
+——《ABAQUS 结构工程分析及实例详解》王玉镯 傅传国 P23
+
+5、在ABAQUS中梁单元的名字以字母“B”开头。下一个字符表示单元的维数：“2”指的是二维梁单元，“3”指的是三维梁单元。第三个字符表示插值的阶数：“1”表示线形插值，“2”表示二次插值，“3”表示三次插值。
+——《ABAQUS 结构工程分析及实例详解》王玉镯 傅传国 P58
+
+
+
+
+
+
+
+
+
