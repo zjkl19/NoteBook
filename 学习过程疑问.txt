@@ -1,6 +1,9 @@
 1、ansys
 sstif,on !打开应力刚度选项
 含义？
+答：见《基于ANSYS的悬索桥结构有限元分析》 安伟胜 P8~9
 
 2、abaqus T3D2 单元是否需要采用ernst等效弹性模量？
 ——论文《塔悬索桥动力特征参数分析 焦常科》
+
+3、abaqus arbitrary profile怎么理解？
